@@ -4,9 +4,10 @@ import {engine} from "express-handlebars"
 import __dirname from "./utils.js"
 import morgan from "morgan"
 
-import indexRouter from "./src/routers/index.router.js"
-import pathHandler from "./src/middlewares/pathHandler.js"
-import errorHandler from "./src/middlewares/errorHandler.js"
+// import indexRouter from "./src/routers/index.router.js"
+// import pathHandler from "./src/middlewares/pathHandler.js"
+// import errorHandler from "./src/middlewares/errorHandler.js"
+import dbConnect from "./src/helpers/dbConnect.helper.js"
 
 /*server settings*/
 const server = express()
@@ -15,7 +16,7 @@ const ready = async()=>{
 	console.log("server ready on port: "+port)
 	await dbConnect(process.env.LINK_DB)
 }
-server.listen(PORT,ready)
+server.listen(port,ready)
 
 /*engine settings*/
 server.engine("handlebars", engine())
@@ -28,7 +29,7 @@ server.use(express.urlencoded({extended:true})) //habilito la lectura de paramet
 server.use(express.static("public")) // si uso public, lo tengo q configurar, usando la carpeta estatica y aclarando el nombre
 server.use(morgan("dev")) //morgan (opcional) me informa que solicitud esta llegando, dando info muy importante con la que yo puedo chequear si esta bien el metodo, si esta bien la ruta, si esta bien el parametro, etc
 
-/*router settings*/
-server.use("/",indexRouter)
-server.use(pathHandler) //es un middleware pero va aca porque es un middleware para rutas
-server.use(errorHandler)
+// /*router settings*/
+// server.use("/",indexRouter)
+// server.use(pathHandler) //es un middleware pero va aca porque es un middleware para rutas
+// server.use(errorHandler)

@@ -1,3 +1,3 @@
 import { Router } from "express";
-const ViewTransitionRouter = Router()
-export default ViewTransitionRouter
+const ViewsRouter = Router()
+export default ViewsRouter

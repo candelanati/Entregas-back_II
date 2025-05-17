@@ -9,6 +9,7 @@ import pathHandler from "./src/middlewares/pathHandler.mid.js"
 // import errorHandler from "./src/middlewares/errorHandler.js"
 import dbConnect from "./src/helpers/dbConnect.helper.js"
 import errorHandler from "./src/middlewares/errorHandler.mid.js"
+import indexRouter from "./src/routers/index.router.js"
 
 /*server settings*/
 const server = express()

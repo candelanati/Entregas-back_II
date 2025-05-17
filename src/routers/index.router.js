@@ -1,3 +1,3 @@
 import { Router } from "express";
-const indexRouter = Router
+const indexRouter = Router()
 export default indexRouter

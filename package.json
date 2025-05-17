@@ -1,0 +1,30 @@
+{
+  "name": "entrega1-back2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node ./index.js",
+    "dev":"node --watch ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/candelanati/Entregas-back_II.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/candelanati/Entregas-back_II/issues"
+  },
+  "homepage": "https://github.com/candelanati/Entregas-back_II#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "mongoose": "^8.15.0",
+    "morgan": "^1.10.0"
+  }
+}

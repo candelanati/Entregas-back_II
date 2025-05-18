@@ -1,9 +1,12 @@
-import { response, Router } from "express";
-
+import { Router } from "express";
+import { productsManager } from "../../data/managers/mongo/manager.mongo.js";
+import mongoose from "mongoose";
+const {isValidObjectId}=mongoose
 const productsRouter = Router()
 
 const createOne = async(req,res,next)=>{
     try {
+        const { method, originalUrl: url } = req;
         console.log(req.body)
        
         const productoRecibido={
@@ -16,23 +19,13 @@ const createOne = async(req,res,next)=>{
            category: req.body.category,
            thumbnails:  req.body.thumbnails
         }
-       //validaciones
+        //validaciones
            //pre-existencias
-            const productPreExistente = await productsModel.findOne(
-                {
-                    title: productoRecibido.title,
-                    description: productoRecibido.description,
-                    code: productoRecibido.code,
-                    price: productoRecibido.price,
-                    stock: productoRecibido.stock,
-                    category: productoRecibido.category,
-                    thumbnails: { $eq: productoRecibido.thumbnails } // Comparación exacta de arrays
-                }
-            ).lean()
+            const productPreExistente = await productsManager.readBy(productoRecibido)
             if(productPreExistente){
                 return res.status(400).send({error: 'El producto ya existe en la lista de productos'});
             }
-            const codePreExistente = await productsModel.findOne({code: productoRecibido.code}).lean()
+            const codePreExistente = await productsManager.readBy({code: productoRecibido.code})
             if(codePreExistente){
                 return res.status(400).send({error:'ya existe un producto con el código: '+productoRecibido.code})
             }
@@ -72,11 +65,11 @@ const createOne = async(req,res,next)=>{
             }
 
         
-        let productoNuevo = await productManager.save(productoRecibido)
+        let response = await productsManager.createOne(productoRecibido)
        
-        let products=await productManager.get()
+        //let products=await productManager.get()
         // req.io.emit("ProductosGet", products)
-        res.status(201).json(productoNuevo)
+        res.status(201).json({response, method, url})
         // res.status(200).json({response:true})
     } catch (error) {
         next(error)//lleva al errorHandler
@@ -84,30 +77,32 @@ const createOne = async(req,res,next)=>{
 }
 const readAll = async(req,res,next)=>{
     try {
-        let products = await productManager.get()
-        // req.io.emit("ProductosGet", products)
-        // console.log(products)
+        const { method, originalUrl: url } = req;
+        let response = await productsManager.readAll()
+        // req.io.emit("ProductosGet", response)
+        // console.log(response)
         res.setHeader('Content-Type','application/json')
-		res.status(200).json({products})
+		res.status(200).json({response,method,url})
         // res.status(200).json({response:true})
     } catch (error) {
         next(error)//lleva al errorHandler
     }
 }
 const readById = async(req,res,next)=>{
-    let {pid}=req.params
+    const { method, originalUrl: url } = req;
+    let {id:pid}=req.params
     if(!isValidObjectId(pid)){
         return res.status(400).json({error:'Ingrese un id valido de MongoDB'})
     }
     //validaciones
     try {
-        let producto=await productsModel.findById(pid).lean()
-        if(!producto){
+        let response=await productsManager.readById(pid)
+        if(!response){
             return res.status(404).send({error:'no existen productos con id: '+pid})
         }
-        req.io.emit("Product", producto)
+        //req.io.emit("Product", producto)
         
-        res.status(200).json(producto)
+        res.status(200).json({response,method,url})
         // res.status(200).json({response:true})
     } catch (error) {
         next(error)//lleva al errorHandler
@@ -115,8 +110,9 @@ const readById = async(req,res,next)=>{
 }
 const updateById = async(req,res,next)=>{
     try {
-        const {pid}=req.params
-        let position= await productsModel.findById(pid).lean()
+        const { method, originalUrl: url } = req;
+        const {id:pid}=req.params
+        let position= await productsManager.readById(pid)
         //validacion existencia
         if(position===null){
             return res.status(400).send('El producto a actualizar con id '+pid+' no existe')
@@ -190,10 +186,10 @@ const updateById = async(req,res,next)=>{
             }
         }
 
-        const productoActualizado = await productManager.update(pid,updatedData)
-        products=await productManager.get()
-        req.io.emit("ProductosGet", products)
-        res.status(200).json(productoActualizado)
+        const response = await productsManager.updateById(pid,updatedData)
+        //products=await productManager.get()
+        //req.io.emit("ProductosGet", products)
+        res.status(200).json({response,method,url})
         //res.status(200).json({response:true})
     } catch (error) {
         next(error)//lleva al errorHandler
@@ -201,24 +197,25 @@ const updateById = async(req,res,next)=>{
 }
 const destroyById = async(req,res,next)=>{
     try {
-        const {pid} = req.params
-        let product= await productsModel.findById(pid).lean()
+        const { method, originalUrl: url } = req;
+        const {id:pid} = req.params
+        let product= await productsManager.readById(pid)
         if(!product){
            return res.status(400).send('El producto a eliminar con id '+pid+' no existe')
         }
-        await productManager.delete(pid)
-        let productsEliminado = await productManager.get()
-        req.io.emit("ProductosGet", productsEliminado)
-        res.status(200).json(productsEliminado)
+        await productsManager.destroyById(pid)
+        let response = await productsManager.readAll()
+        //req.io.emit("ProductosGet", productsEliminado)
+        res.status(200).json({response, method, url})
         //res.status(200).json({response:true})
     } catch (error) {
         next(error)//lleva al errorHandler
     }
 }
 
-productsRouter.post("/",createOne)//listo
-productsRouter.get("/",readAll)//listo
-productsRouter.get("/:id",readById)//listo
+productsRouter.post("/",createOne)
+productsRouter.get("/",readAll)
+productsRouter.get("/:id",readById)
 productsRouter.put("/:id",updateById)
 productsRouter.delete("/:id",destroyById)
 

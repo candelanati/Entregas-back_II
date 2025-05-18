@@ -107,7 +107,31 @@ const createOneProduct = async (req,res,next)=>{
 const updateById = async (req,res,next)=>{
     try {
         const { method, originalUrl: url } = req
+        let {id:cid} = req.params
+        let aActualizar=req.body
+        if (!aActualizar.products || !Array.isArray(aActualizar.products)) {
+            return res.status(400).json({
+                error: 'Por favor, envíe un array de productos para actualizar el carrito con id: ' + cid
+            });
+        }
+        for (let element of aActualizar.products) {
+            if (!isValidObjectId(element.product)) {
+                return res.status(400).json({
+                    error: "No existe un producto con id " + element.product + 
+                           ". Por favor, ingrese productos con id válidos para actualizar."
+                });
+            }
+            if (typeof element.quantity !== 'number' || element.quantity < 0) {
+                return res.status(400).json({
+                    error: "La cantidad debe ser un número mayor o igual a 0. " +
+                           "Cantidad ingresada: " + element.quantity + 
+                           " para el producto con id: " + element.product
+                });
+            }
+        }
 
+        let response = await cartsManager.updateById(cid,aActualizar)
+        res.status(200).json({response,method,url})
     } catch (error) {
         next(error)
     }
@@ -115,7 +139,29 @@ const updateById = async (req,res,next)=>{
 const updateProductById = async (req,res,next)=>{
     try {
         const { method, originalUrl: url } = req
-
+        let cantidad = req.body
+        let {cid,pid}=req.params
+        //validacion existencia IDs
+        if(!isValidObjectId(cid)){
+            return res.status(400).json({error:"Ingrese un ID para carrito válido."})
+        }
+        if(!isValidObjectId(pid)){
+            return res.status(400).json({error:"Ingrese un ID para producto válido."})
+        }
+        //busca carrito en la base de datos
+        let carrito = await cartsManager.readByIdMongoose(cid)
+        if(!carrito){
+            return res.status(400).json({error:"Carrito no encontrado."})
+        }
+        //buscar el producto en el carrito
+        let productoIndex = carrito.products.findIndex(p => p.product.toString() === pid);
+        if(productoIndex===-1){
+            return res.status(400).json({error:"No existe un producto con id: "+pid+" en el carrito con id: "+cid+". Por favor, ingrese un producto existente."})
+        }
+        // actualiza quantity
+        carrito.products[productoIndex].quantity = cantidad.quantity
+        let response = await carrito.save()
+        res.status(200).json({response,method,url})
     } catch (error) {
         next(error)
     }
@@ -123,7 +169,19 @@ const updateProductById = async (req,res,next)=>{
 const destroyById = async (req,res,next)=>{
     try {
         const { method, originalUrl: url } = req
-
+        const {id:cid} = req.params
+        //validacion cid
+        if(!isValidObjectId(cid)){
+            return res.status(400).send({error:"Id no valido. Por favor, introduzca un id valido para carrito."})
+        }
+        let cart= await cartsManager.readById(cid)
+        if(!cart){
+            return res.status(400).send('El carrito a eliminar con id '+cid+' no existe')
+        }
+        let response = await cartsManager.destroyById(cid)
+        let resultado = await cartsManager.readAll()
+        console.log("carritos despues de la eliminacion: ",resultado);
+        res.status(200).json({response,method,url})
     } catch (error) {
         next(error)
     }
@@ -131,7 +189,33 @@ const destroyById = async (req,res,next)=>{
 const destroyProductById = async (req,res,next)=>{
     try {
         const { method, originalUrl: url } = req
+        const {cid,pid} = req.params
+        console.log("id carrito: "+cid+" id producto: "+pid);
+        //validacion IDs
+        if(!isValidObjectId(cid)){
+            return res.status(400).send({error:"Id no valido. Por favor, introduzca un id valido para carrito."})
+        }
+        if(!isValidObjectId(pid)){
+            return res.status(400).send({error:"Id no valido. Por favor, introduzca un id valido para producto."})
+        }
+        //buscar carrito en la BD
+        console.log("Buscando carrito con ID:", cid);
+        const carrito = await cartsManager.readByIdMongoose(cid);
+        console.log("Resultado de búsqueda:", carrito);
 
+        if (!carrito) {
+            return res.status(404).send({ error: `No se encontró un carrito con ID ${cid}` });
+        }
+        //buscar el indice del producto en el carrito
+        let productoIndex = carrito.products.findIndex(p => p.product.toString() === pid)
+        if(productoIndex===-1){
+            return res.status(400).json({error:"No existe un producto con id: "+pid+" en el carrito con id: "+cid+". Por favor, ingrese un producto existente."})
+        }
+        //elimina el producto
+        carrito.products.splice(productoIndex, 1)
+        const response = await carrito.save()
+        
+        res.status(200).json({response,method,url})
     } catch (error) {
         next(error)
     }

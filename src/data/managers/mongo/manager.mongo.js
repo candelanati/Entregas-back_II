@@ -10,8 +10,10 @@ class Manager {
   readAll = async (filter) => await this.model.find(filter).lean();
   readById = async (id) => await this.model.findOne({ _id: id }).lean();
   readBy = async (filter) => await this.model.findOne(filter).lean();
-  updateById = async (id, data) => await this.model.findByIdAndUpdate(id, data, { new: true });
-  destroyById = async (id) => await this.model.findByIdAndDelete(id);
+  updateById = async (id, data) => await this.model.findByIdAndUpdate(id, data, { new: true }).lean();
+  updateOne = async (filter, data, options = {}) => await this.model.updateOne(filter, data, options);
+  destroyById = async (id) => await this.model.findByIdAndDelete(id).lean();
+  readManyByIds = async (ids) => await this.model.find({ _id: { $in: ids } }).lean();
 }
 
 const productsManager = new Manager(Product);

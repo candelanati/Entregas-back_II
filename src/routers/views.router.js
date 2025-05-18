@@ -11,7 +11,12 @@ const indexView = async(req,res)=>{
         res.status(error.statusCode||500).render("error",{error})
     }
 }
-
+const detailsView = async (req, res) => {
+  const { pid } = req.params
+  const product = await productsManager.readById(pid)
+  res.status(200).render("details", { product })
+}
 ViewsRouter.get("/",indexView)
+ViewsRouter.get("/details/:pid", detailsView)
 
 export default ViewsRouter

@@ -1,0 +1,31 @@
+<a href="/carts/67eef5807fa2ca2bef6c9114" class="button-ver-carrito">Ver carrito</a>
+<h1 class="titulo-div-cards-productos">Productos</h1>
+<div class="div-cards-productos">
+    {{#each products}}
+        <div class="card-producto">
+            {{#if this.thumbnails.[0]}}
+                <img src="{{this.thumbnails.[0]}}" alt="{{title}}">
+            {{else}}
+                <img src="https://cdn.discordapp.com/attachments/699337460815102082/1373765473849573376/producto-sin-imagen.png?ex=682b9a4c&is=682a48cc&hm=ca33f7d2046f0cd94713ee6c407ef464ffb49178b1241e4cc4dea67df0024e09&" alt="Imagen por defecto">
+            {{/if}}
+            <h3 class="titulo-card-producto">{{this.title}}</h3>
+            {{!-- <p class="descripcion-card-producto">{{this.description}}</p> --}}
+            <p>${{this.price}}</p>
+            <a href="/products/{{this._id}}" class="boton-ver-mas">Ver detalle</a>
+            
+            {{!-- activa o desactiva el boton agregar a carrito --}}
+                {{#if this.status}}
+                    <form class="form-agregar" data-cid="{{../defaultCartId}}" data-pid="{{this._id}}">
+                        <button type="submit">Agregar al carrito</button>
+                    </form>
+                {{else}}
+                    <form>
+                        <button type="submit" disabled style="background-color: grey; cursor: not-allowed;" class="producto-no-disponible">
+                        Producto no disponible
+                        </button>
+                    </form>
+                {{/if}}
+
+        </div>
+    {{/each}}
+</div>

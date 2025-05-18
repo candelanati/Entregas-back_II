@@ -1,0 +1,55 @@
+<h1>Carrito</h1>
+<a href="/products" class="button-volver-a-productos">Volver a productos</a>
+{{#if cart.products.length}}
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+        <th>Gestionar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cart.products}}
+        <tr>
+          <td>{{this.product.title}}</td>
+          <td>{{this.quantity}}</td>
+          <td>${{this.product.price}}</td>
+          <td>${{multiply this.quantity this.product.price}}</td>
+          <td><a href="" class="eliminar-producto-carrito" data-cart="{{../cart._id}}" data-product="{{this.product._id}}">Eliminar</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2 class="total-carrito">Total: ${{total cart.products}}</h2>
+{{else}}
+  <p>El carrito está vacío.</p>
+{{/if}}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".eliminar-producto-carrito").forEach(button => {
+            button.addEventListener("click", async (event) => {
+                event.preventDefault(); // Evita que el enlace recargue la página
+
+                const cartId = event.target.dataset.cart;
+                const productId = event.target.dataset.product;
+
+                const response = await fetch(`/api/carts/${cartId}/product/${productId}`, {
+                    method: "DELETE",
+                    headers: {
+                    "Content-Type": "application/json"
+                    }
+                });
+
+                if (response.ok) {
+                    alert("Producto eliminado del carrito. ✔️");
+                    window.location.reload(); // Recarga la página para actualizar la vista
+                } else {
+                    alert("❌ Error al eliminar el producto.");
+                }
+            });
+        });
+});
+</script>

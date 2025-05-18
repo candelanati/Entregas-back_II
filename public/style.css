@@ -47,7 +47,7 @@ body {
     margin-bottom: 0px;
 }
 .div-cards-productos{
-    margin-inline: 180px;
+    margin-inline: 100px;
     display: flex;
     gap:30px;
     flex-wrap: wrap;
@@ -55,7 +55,8 @@ body {
 }
 .titulo-div-cards-productos{
     margin-bottom:80px;
-    margin-top: 150px;
+    margin-top: 20px;
+    /* margin-top: 150px; */
 }
 .boton-ver-mas{
     border: 2px;

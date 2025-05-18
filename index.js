@@ -1,6 +1,8 @@
 import "dotenv/config.js"
 import express from "express"
 import {engine} from "express-handlebars"
+import expressHandlebars from "express-handlebars";
+import { handlebarsHelpers } from "./src/helpers/handlebars.helper.js";
 import __dirname from "./utils.js"
 import morgan from "morgan"
 
@@ -20,8 +22,13 @@ const ready = async()=>{
 }
 server.listen(port,ready)
 
+// motor personalizado con helpers
+const hbs = expressHandlebars.create({
+  helpers: handlebarsHelpers
+});
+
 /*engine settings*/
-server.engine("handlebars", engine())
+server.engine("handlebars", hbs.engine.bind(hbs))
 server.set("view engine", "handlebars")
 server.set("views",__dirname+"/src/views") //__dirname es la ubicacion de la carpeta raiz y la obtenemos en el utils.js
 

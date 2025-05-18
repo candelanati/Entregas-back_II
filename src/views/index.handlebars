@@ -1,4 +1,62 @@
-<a href="/carts/67eef5807fa2ca2bef6c9114" class="button-ver-carrito">Ver carrito</a>
+{{!-- <nav >
+    <div class="filtros-nav">
+    
+
+    <div class="filtro-categorias">
+        
+        <div class="nombre-y-borrar">
+            <p>Categoría:</p>
+            {{#if category}}
+                <a href="/products{{#if status}}?status={{status}}{{/if}}{{#if sort}}{{#unless category}}?{{/unless}}&sort={{sort}}{{/if}}" class="quitar-filtro">Quitar</a>
+            {{/if}}
+        </div>
+        <div class="filtros-botones">
+            <a href="/products?category=Electrónica{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Electrónica')}}selected{{/if}}{{/if}}">Electrónica</a>
+            <a href="/products?category=Hogar{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Hogar')}}selected{{/if}}{{/if}}">Hogar</a>
+            <a href="/products?category=Deportes{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Deportes')}}selected{{/if}}{{/if}}">Deportes</a>
+            <a href="/products?category=Juguetes{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Juguetes')}}selected{{/if}}{{/if}}">Juguetes</a>
+            <a href="/products?category=Electrodomésticos{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Electrodomésticos')}}selected{{/if}}{{/if}}">Electrodomésticos</a>
+            <a href="/products?category=Papelería{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Papelería')}}selected{{/if}}{{/if}}">Papelería</a>
+            <a href="/products?category=Computación{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Computación')}}selected{{/if}}{{/if}}">Computación</a>
+            <a href="/products?category=Belleza{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Belleza')}}selected{{/if}}{{/if}}">Belleza</a>
+            <a href="/products?category=Automotor{{#if status}}&status={{status}}{{/if}}" class="{{#if category}}{{#if (eq category 'Automotor')}}selected{{/if}}{{/if}}">Automotor</a>
+            <a href="/products{{#if status}}?status={{status}}{{/if}}" class="{{#unless category}}selected{{/unless}}">Todas</a>
+        </div>
+
+    </div>
+
+    <div class="filtro-status">
+        <div class="nombre-y-borrar">
+            <p>Disponibilidad:</p>
+            {{#if status}}
+                <a href="/products{{#if category}}?category={{category}}{{/if}}{{#if sort}}{{#unless category}}?{{/unless}}&sort={{sort}}{{/if}}" class="quitar-filtro">Quitar</a>
+            {{/if}}
+        </div>
+        <div class="filtros-botones">
+            <a href="/products?status=true{{#if category}}&category={{category}}{{/if}}"  class="{{#if status}}{{#if (eq status 'true')}}selected{{/if}}{{/if}}">Disponibles</a>
+            <a href="/products?status=false{{#if category}}&category={{category}}{{/if}}" class="{{#if status}}{{#if (eq status 'false')}}selected{{/if}}{{/if}}">No disponibles</a>
+            <a href="/products{{#if category}}?category={{category}}{{/if}}" class="{{#unless status}} selected {{/unless}}">Todos</a>
+        </div>
+    </div>
+
+    <div class="filtro-orden">
+        <div class="nombre-y-borrar">
+            <p>Ordenar por precio:</p> 
+            {{#if sort}}
+                <a href="/products{{#if category}}?category={{category}}{{/if}}{{#if status}}{{#unless category}}?{{/unless}}&status={{status}}{{/if}}" class="quitar-filtro">Quitar</a>
+            {{/if}}
+        </div>
+        <div class="filtros-botones">
+            <a href="/products?sort=asc{{#if category}}&category={{category}}{{/if}}{{#if status}}&status={{status}}{{/if}}" class="{{#if (eq sort 'asc')}}selected{{/if}}">Menor a mayor</a>
+            <a href="/products?sort=desc{{#if category}}&category={{category}}{{/if}}{{#if status}}&status={{status}}{{/if}}" class="{{#if (eq sort 'desc')}}selected{{/if}}">Mayor a menor</a>
+            
+        </div>
+    </div>
+  </div>
+  
+</nav> --}}
+
+{{!-- <a href="/carts/67eef5807fa2ca2bef6c9114" class="button-ver-carrito">Ver carrito</a> --}}
 <h1 class="titulo-div-cards-productos">Productos</h1>
 <div class="div-cards-productos">
     {{#each products}}
@@ -29,3 +87,42 @@
         </div>
     {{/each}}
 </div>
+{{!-- <div class="div-paginado">
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}{{#if category}}&category={{category}}{{/if}}{{#if status}}&status={{status}}{{/if}}{{#if sort}}&sort={{sort}}{{/if}}" class="botones-anterior-siguiente">Anterior</a> 
+    {{/if}}
+
+    Página {{page}}
+
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}{{#if category}}&category={{category}}{{/if}}{{#if status}}&status={{status}}{{/if}}{{#if sort}}&sort={{sort}}{{/if}}" class="botones-anterior-siguiente">Siguiente</a>
+    {{/if}}
+</div> --}}
+
+<script>
+    console.log("script activo")
+  document.querySelectorAll('.form-agregar').forEach(form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // Evita que recargue/redirija
+
+      const cid = this.dataset.cid;
+      const pid = this.dataset.pid;
+
+      fetch(`/api/carts/${cid}/product/${pid}`, {
+        method: 'POST'
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Error al agregar");
+        return res.json();
+      })
+      .then(data => {
+        alert('🛒 Producto agregado al carrito por default✔️\n➡️ Para ver el carrito, presione el boton: "Ver carrito"\n(El boton se encuentra arriba a la izquierda, debajo de la nav)');
+        // Si querés, podés actualizar un contador de carrito acá
+      })
+      .catch(err => {
+        console.error(err);
+        alert("❌ Error al agregar al carrito");
+      });
+    });
+  });
+</script>

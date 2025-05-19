@@ -1,0 +1,44 @@
+<main>
+  <h1>REGISTER FORM</h1>
+  <form style="width: 380px;">
+    <input type="email" name="email" id="email" placeholder="EMAIL" />
+    <input type="password" name="password" id="password" placeholder="PASSWORD" />
+    <input type="text" name="name" id="name" placeholder="NICKNAME" />
+    <input type="text" name="avatar" id="avatar" placeholder="AVATAR URL" />
+    <input type="text" name="city" id="city" placeholder="CITY" />
+    <input type="date" name="date" id="date" />
+    <input type="button" id="register" value="REGISTER!" />
+  </form>
+</main>
+<script>
+    document.querySelector("#register").addEventListener("click", async () => {
+  try {
+    const data = {
+      name: document.querySelector("#name").value,
+      date: document.querySelector("#date").value,
+      email: document.querySelector("#email").value,
+      password: document.querySelector("#password").value,
+      avatar: document.querySelector("#avatar").value,
+      city: document.querySelector("#city").value,
+    };
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+    const url = "/api/auth/register";
+    let response = await fetch(url, opts);
+    response = await response.json();
+    //console.log(response);
+    if (response.error) {
+      alert(response.error);
+    } else {
+      location.replace("/login");
+    }
+  } catch (error) {
+    console.log(error);
+    alert(error.message);
+  }
+});
+
+</script>

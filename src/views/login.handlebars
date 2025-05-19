@@ -1,0 +1,36 @@
+<main>
+  <h1>LOGIN FORM</h1>
+  <form style="width: 380px;">
+    <input type="email" name="email" id="email" placeholder="EMAIL" />
+    <input type="password" name="password" id="password" placeholder="PASSWORD" />
+    <input type="button" id="login" value="LOGIN!" />
+  </form>
+</main>
+<script>
+    document.querySelector("#login").addEventListener("click", async () => {
+    try {
+        const data = {
+        email: document.querySelector("#email").value,
+        password: document.querySelector("#password").value,
+        };
+        const opts = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        };
+        const url = "/api/auth/login";
+        let response = await fetch(url, opts);
+        response = await response.json();
+        console.log(response);
+        if (response.error) {
+        alert(response.error);
+        } else {
+        location.replace("/");
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error.message);
+    }
+    });
+
+</script>

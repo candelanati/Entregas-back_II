@@ -22,12 +22,19 @@
   "homepage": "https://github.com/candelanati/Entregas-back_II#readme",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.7",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cookieparser": "^0.1.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.1",
     "mongoose": "^8.15.0",
     "mongoose-paginate-v2": "^1.9.0",
     "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "tailwindcss": "^4.1.7"
   }
 }

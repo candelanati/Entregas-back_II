@@ -37,14 +37,21 @@ const cartView = async(req,res)=>{
     // También pasamos el carrito por defecto (su ID) para usarlo en botones de "Agregar al carrito"
     const defaultCartId = "682a32031b48dcb6e96c3014";
 
-    res.render("cart", {
+    res.status(200).render("cart", {
         cart,
         defaultCartId
     });
 }
+const loginView = async (req, res) => {
+  res.status(200).render("login");
+};
+const registerView = async (req, res) => {
+  res.status(200).render("register");
+};
 
 ViewsRouter.get("/",indexView)
 ViewsRouter.get("/details/:pid", detailsView)
 ViewsRouter.get("/carts/:cid",cartView)
-
+ViewsRouter.get("/login",loginView)
+ViewsRouter.get("/register", registerView)
 export default ViewsRouter

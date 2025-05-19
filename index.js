@@ -12,6 +12,7 @@ import pathHandler from "./src/middlewares/pathHandler.mid.js"
 import dbConnect from "./src/helpers/dbConnect.helper.js"
 import errorHandler from "./src/middlewares/errorHandler.mid.js"
 import indexRouter from "./src/routers/index.router.js"
+import cookieParser from "cookie-parser";
 
 /*server settings*/
 const server = express()
@@ -33,6 +34,7 @@ server.set("view engine", "handlebars")
 server.set("views",__dirname+"/src/views") //__dirname es la ubicacion de la carpeta raiz y la obtenemos en el utils.js
 
 /*middlewares settings*/
+server.use(cookieParser(process.env.JWT_SECRET))//habilita las cookies
 server.use(express.json()) //habilita el json y el req.body
 server.use(express.urlencoded({extended:true})) //habilito la lectura de parametros y querys complejas
 server.use(express.static("public")) // si uso public, lo tengo q configurar, usando la carpeta estatica y aclarando el nombre

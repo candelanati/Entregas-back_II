@@ -229,5 +229,4 @@ cartsRouter.put("/:cid/products/:pid",updateProductById)
 cartsRouter.delete("/:id",destroyById)
 cartsRouter.delete("/:cid/products/:pid",destroyProductById)
 
-
 export default cartsRouter

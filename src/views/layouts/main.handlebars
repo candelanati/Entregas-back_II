@@ -37,14 +37,14 @@
             console.log(response);
             if (response.error) {
             selector.innerHTML = `
-            <a class="btn btn-success py-1 px-2 m-1" href="/register">Register</a>
-            <a class="btn btn-success py-1 px-2 m-1" href="/login">Login</a>
+            <a href="/register"><button class="boton-ver-mas">Register</button></a>
+            <a href="/login"><button class="boton-ver-mas">Login</button></a>
             `;
             } else {
             selector.innerHTML = `
-            <a class="btn btn-success py-1 px-2 m-1" href="/profile">Profile</a>
-            <a class="btn btn-success py-1 px-2 m-1" href="/cart">Cart</a>
-            <button class="btn btn-success py-1 px-2 m-1" id="signout">Sign out</button>
+            <a href="/profile"><button class="boton-ver-mas">Profile</button></a>
+            <a href="/carts/682a32031b48dcb6e96c3014"><button class="boton-ver-mas">Cart</button></a>
+            <button id="signout" class="boton-ver-mas">Sign out</button>
             `;
         document.querySelector("#signout").addEventListener("click", async () => {
         try {

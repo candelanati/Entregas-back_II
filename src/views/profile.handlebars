@@ -1,0 +1,21 @@
+<h1>PROFILE</h1>
+<section class="div-card-profile">
+  <div class="card-profile">
+    {{#if (isEmpty user.avatar)}}
+      <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="avatar por defecto">
+    {{else}}
+      <img src="{{user.avatar}}" alt="avatar del usuario: {{user._id}}">
+    {{/if}}
+    <div >
+      {{#if user.name}}
+      <p id="nombre-de-usuario">{{user.name}}</p>
+      {{/if}}
+      {{#if user.date}}
+      <p>{{user.date}}</p>
+      {{/if}}
+      <p>{{user.city}}</p>
+      <h3>{{user.email}}</h3>
+      <a href="/update-user" class="boton-ver-mas">update</a>
+    </div>
+  </div>
+</section>

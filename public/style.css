@@ -12,9 +12,11 @@ article {
 }
 
 body {
-    padding-inline: 4rem;
-    padding-block: 2rem;
+    padding-bottom: 2rem;
     position: relative;
+}
+#productos{
+    padding-inline: 4rem;
 }
 .aclaracion{
     font-size:medium !important;
@@ -119,16 +121,27 @@ body {
     gap: 10px;
 }
 nav{
-    background-color: #f0f0f3a6;
+    background-color: #2d2f3ac7;
     backdrop-filter: blur(10px);
-    position: fixed;
-    width: 100vw;
+    position: sticky;
+    padding: 10px;
+    width: 100%;
     margin: 0px !important;
     padding-bottom: 10px;
     top: 0px;
     left: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+
+    div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    a{
+        text-decoration: none;
+    }
 }
 .filtros-nav{
     display: flex;

@@ -1,0 +1,51 @@
+<main class="d-flex flex-column align-items-center w-100 flex-grow-1">
+  <h1 class="bg-success-subtle p-2 text-center text-success w-100">UPDATE USER FORM</h1>
+  <form class="m-3 d-flex flex-column justify-content-evenly flex-wrap align-items-center" style="width: 380px;">
+    <input class="m-2 p-2 text-center w-100" type="text" name="name" id="name" placeholder="NICKNAME" />
+    <input class="m-2 p-2 text-center w-100" type="text" name="avatar" id="avatar" placeholder="AVATAR URL" />
+    <input class="m-2 p-2 text-center w-100" type="text" name="city" id="city" placeholder="CITY" />
+    <input class="m-2 p-2 text-center w-100" type="date" name="date" id="date" />
+    <input class="m-2 p-2 text-center btn btn-success w-100" type="button" id="update" value="UPDATE!" />
+  </form>
+</main>
+<script>
+document.querySelector("#update").addEventListener("click", async () => {
+    try {
+        const data = {};
+        const name = document.querySelector("#name").value
+        if (name) {
+          data.name = name
+        }
+        const date = document.querySelector("#date").value
+        if (date) {
+          data.date = date
+        }
+        const avatar = document.querySelector("#avatar").value
+        if (avatar) {
+          data.avatar = avatar
+        }
+        const city = document.querySelector("#city").value
+        if (city) {
+          data.city = city
+        }
+        const opts = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        };
+        const url = "/api/users";
+        let response = await fetch(url, opts);
+        response = await response.json();
+        //console.log(response);
+        if (response.error) {
+        alert(response.error);
+        } else {
+        location.replace("/login");
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error.message);
+    }
+});
+
+</script>

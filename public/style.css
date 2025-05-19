@@ -365,8 +365,9 @@ nav{
     img{
         border: 1px;
         border-radius: 100%;
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
         align-self: center;
     }
     #nombre-de-usuario{

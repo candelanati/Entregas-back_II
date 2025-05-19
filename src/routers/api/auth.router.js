@@ -10,7 +10,12 @@ const registerCb = async (req, res) => {
 };
 const loginCb = async (req, res) => {
   const { _id } = req.user;
-  const opts = { maxAge: 7 * 24 * 60 * 60 * 1000 };
+  const opts = {
+    httpOnly: false,     // Permite que el navegador acceda a la cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: "lax"
+  };
+
   res.cookie("token", req.user.token, opts).json200(_id, "Logged in");
 };
 const signoutCb = (req, res) =>

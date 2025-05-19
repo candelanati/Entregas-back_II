@@ -110,7 +110,8 @@
       const pid = this.dataset.pid;
 
       fetch(`/api/carts/${cid}/product/${pid}`, {
-        method: 'POST'
+        method: 'POST',
+        
       })
       .then(res => {
         if (!res.ok) throw new Error("Error al agregar");

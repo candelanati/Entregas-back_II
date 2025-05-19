@@ -5,6 +5,7 @@ const setupPolicies = (policies) => async (req, res, next) => {
   try {
     if (policies.includes("PUBLIC")) return next();
     const token = req?.cookies?.token;
+    console.log("🍪 TOKEN:", token); // DEBUG
     const data = verifyToken(token);
     const { user_id, role } = data;
     if (!user_id) return res.json401();

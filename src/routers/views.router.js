@@ -57,6 +57,9 @@ const profileView = async (req, res) => {
     }
     res.status(200).render("profile", { user });
 };
+const updateUserView = async (req, res) => {
+  res.status(200).render("update-user");
+};
 
 ViewsRouter.get("/",indexView)
 ViewsRouter.get("/details/:pid", detailsView)
@@ -64,6 +67,6 @@ ViewsRouter.get("/carts/:cid",cartView)
 ViewsRouter.get("/login",loginView)
 ViewsRouter.get("/register", registerView)
 ViewsRouter.get("/profile",passport.authenticate("user", { session: false }),profileView);
-
+ViewsRouter.get("/update-user",updateUserView)
 
 export default ViewsRouter

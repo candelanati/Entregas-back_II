@@ -19,7 +19,7 @@ export const handlebarsHelpers = {
     if (typeof value !== "string" || value.trim() === "") return true;
 
     // Verifica que sea una URL válida que comience con http(s) y tenga formato de imagen
-    const isValidUrl = /^(http|https):\/\/.+\.(jpg|jpeg|png|webp|gif|svg)$/.test(value.trim());
+    const isValidUrl = /^(http|https):\/\/.+\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/.test(value.trim());
 
     return !isValidUrl;
   }

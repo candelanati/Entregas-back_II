@@ -30,6 +30,7 @@
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             };
             const url = "/api/auth/online";
             let response = await fetch(url, opts);

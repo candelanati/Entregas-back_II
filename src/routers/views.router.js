@@ -63,10 +63,17 @@ const updateUserView = async (req, res) => {
 
 ViewsRouter.get("/",indexView)
 ViewsRouter.get("/details/:pid", detailsView)
-ViewsRouter.get("/carts/:cid",cartView)
+ViewsRouter.get("/carts/:cid",passport.authenticate("user", { session: false, failureRedirect:"/error?message=Acceso%20denegado.%20Por%20favor%20inicia%20sesión." }),cartView)
 ViewsRouter.get("/login",loginView)
 ViewsRouter.get("/register", registerView)
-ViewsRouter.get("/profile",passport.authenticate("user", { session: false }),profileView);
+ViewsRouter.get("/profile",passport.authenticate("user", { session: false, failureRedirect:"/error?message=Acceso%20denegado.%20Por%20favor%20inicia%20sesión." }),profileView);
 ViewsRouter.get("/update-user",updateUserView)
+ViewsRouter.get("/error", (req, res) => {
+  const error = {
+    message: req.query.message || "Ocurrió un error desconocido"
+  };
+  res.status(200).render("error", { error });
+});
+
 
 export default ViewsRouter

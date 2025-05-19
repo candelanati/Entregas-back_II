@@ -1,1 +1,10 @@
-<h1>{{error.message}}</h1>
+<div class="div-error-view">
+  <h1>Error!</h1>
+  <h2>
+    {{#if error.message}}
+      {{error.message}}
+    {{else}}
+      Un error desconocido ocurrió.
+    {{/if}}
+  </h2>
+</div>

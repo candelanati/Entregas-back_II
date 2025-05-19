@@ -121,6 +121,27 @@ passport.use(
     }
   )
 );
+passport.use(
+  "current",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromExtractors([(req) => req?.cookies?.token]),
+      secretOrKey: process.env.JWT_SECRET,
+    },
+    async (data, done) => {
+      try {
+        const { user_id } = data;
+        const user = await usersManager.readById(user_id);
+        if (!user) return done(null, false);
+        return done(null, user);
+      } catch (error) {
+        return done(error, false);
+      }
+    }
+  )
+);
+
+
 // passport.use(
 //   "google",
 //   new GoogleStrategy(

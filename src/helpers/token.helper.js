@@ -17,16 +17,25 @@ const createToken = (data) => {
   }
 };
 const verifyToken = (token) => {
+  if (!token) {
+    const error = new Error("Token no proporcionado");
+    error.statusCode = 401;
+    throw error;
+  }
+
   try {
-    const data = jwt.verify(
-      /* token a destokenizar */
-      token,
-      /* clave secreta para desencriptar */
-      process.env.JWT_SECRET
-    );
+    const data = jwt.verify(token, process.env.JWT_SECRET);
     return data;
   } catch (error) {
-    error.statusCode = 403;
+    if (error.name === 'TokenExpiredError') {
+      error.message = 'Token expirado';
+      error.statusCode = 401;
+    } else if (error.name === 'JsonWebTokenError') {
+      error.message = 'Token inválido';
+      error.statusCode = 403;
+    } else {
+      error.statusCode = 500;
+    }
     throw error;
   }
 };

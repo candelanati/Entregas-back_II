@@ -15,7 +15,7 @@ const loginCb = async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     sameSite: "lax"
   };
-
+  console.log("Login callback", req.user);
   res.cookie("token", req.user.token, opts).json200(_id, "Logged in");
 };
 const signoutCb = (req, res) =>

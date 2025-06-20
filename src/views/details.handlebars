@@ -2,13 +2,19 @@
 <div class="vista-detallada">
     <h2>{{product.title}}</h2>
     <div class="div-imagenes-producto-vista-detallada">
+      {{#if product.thumbnails.[0]}}
         {{#each product.thumbnails}}
-            <img src="{{this}}" alt="imagen del producto" class="imagenes-producto-vista-detallada">
+          <img src="{{this}}" alt="imagen del producto" class="imagenes-producto-vista-detallada">
         {{/each}}
+      {{else}}
+        <img class="img-default-details" src="https://i.pinimg.com/736x/9f/94/87/9f9487b1cc14d3ed693f8ec7ff28ea80.jpg" alt="Imagen por defecto" class="imagenes-producto-vista-detallada">
+      {{/if}}
     </div>
-    <p>{{product.description}}</p>
-    <p>Categoría: {{product.category}}</p>
-    <p>Precio: ${{product.price}}</p>
+    <div>
+      <p>{{product.description}}</p>
+      <p>Categoría: {{product.category}}</p>
+      <p>Precio: ${{product.price}}</p>
+    </div>
     
     {{!-- activa o desactiva el boton agregar a carrito --}}
         {{#if product.status}}

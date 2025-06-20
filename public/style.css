@@ -103,10 +103,11 @@ body {
     margin: auto;
 }
 .vista-detallada{
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-items: start;
+    text-align: left;
 }
 .imagenes-producto-vista-detallada{
     width: 150px; 
@@ -372,4 +373,14 @@ nav{
     gap: 20px;
     margin-top: 50px;
     height: 80dvh;
+}
+
+.img-default{
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+.img-default-details{
+    border: 1px solid transparent;
+    border-radius: 10px;
+    height: 220px;
 }

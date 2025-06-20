@@ -1,6 +1,6 @@
 import { cartsManager, productsManager } from "../data/managers/mongo/manager.mongo.js";
 import mongoose from "mongoose";
-import { readAllServices, readByIdServices } from "../services/products.service.js";
+import { readAllServices, readByIdServices, readByIdWithPopulateServices } from "../services/products.service.js";
 
 
 const {isValidObjectId}=mongoose
@@ -28,11 +28,10 @@ const cartView = async(req,res)=>{
     if (!isValidObjectId(cid)) {
         return res.status(400).send('ID de carrito inválido')
     }
-    const cart = await cartsManager.readByIdWithPopulate(cid,'products.product')
+    const cart = await readByIdWithPopulateServices(cid, 'products.product')
     if (!cart) {
         return res.status(404).send("Carrito no encontrado")
     }
-    
 
     // También pasamos el carrito por defecto (su ID) para usarlo en botones de "Agregar al carrito"
     const defaultCartId = "682a32031b48dcb6e96c3014";

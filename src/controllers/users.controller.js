@@ -1,4 +1,5 @@
 import { updateByIdServices } from "../services/users.service.js";
+import sendEmailHelper from "../helpers/email.helper.js"
 
 const updateUser = async (req, res, next) => {
   try {
@@ -11,4 +12,16 @@ const updateUser = async (req, res, next) => {
     next(error);
   }
 };
-export{updateUser}
+
+const sendEmail = async (req, res, next) => {
+  try {
+    const { method, originalUrl: url } = req;
+    const { email } = req.params
+    await sendEmailHelper(email)
+    res.status(200).json({ response: "Email sent!", method, url });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export{updateUser, sendEmail}

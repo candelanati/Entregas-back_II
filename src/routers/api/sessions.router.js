@@ -1,23 +1,10 @@
-import { Router } from "express"
-import passport from "passport"
+import { Router } from "express";
+import { createCb, readCb, destroyCb } from "../../controllers/sessions.controller.js"
 
-const sessionsRouter = Router()
+const sessionsRouter = Router();
 
-sessionsRouter.get(
-  "/current",
-  passport.authenticate("current", { session: false }),
-  (req, res) => {
-    res.status(200).json({
-      message: "Usuario autenticado",
-      user: {
-        _id: req.user._id,
-        email: req.user.email,
-        name: req.user.name,
-        role: req.user.role,
-        avatar: req.user.avatar,
-      }
-    })
-  }
-)
+sessionsRouter.get("/create", createCb);
+sessionsRouter.get("/read", readCb);
+sessionsRouter.get("/destroy", destroyCb);
 
-export default sessionsRouter
+export default sessionsRouter;

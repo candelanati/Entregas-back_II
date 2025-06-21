@@ -1,0 +1,14 @@
+import { updateByIdServices } from "../services/users.service.js";
+
+const updateUser = async (req, res, next) => {
+  try {
+    const { method, originalUrl: url } = req;
+    const data = req.body;
+    const { _id } = req.user;
+    const response = await updateByIdServices(_id, data);
+    res.status(200).json({ response, method, url });
+  } catch (error) {
+    next(error);
+  }
+};
+export{updateUser}

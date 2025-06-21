@@ -1,4 +1,4 @@
-import "dotenv/config.js"
+import "./src/helpers/env.helper.js"
 import express from "express"
 import argvsHelper from "./src/helpers/argvs.helper.js";
 import {engine} from "express-handlebars"

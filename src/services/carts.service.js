@@ -1,9 +1,10 @@
-import { productsManager, cartsManager } from "../dao/factory.js"
+import { cartsRepository } from "../repositories/carts.repository.js"
 
-const readByIdServices = async(cid)=> await cartsManager.readById(cid)
-const readManyByIdsServices = async(productIds)=>await cartsManager.readManyByIds(productIds)
-const createOneServices = async(products)=>await cartsManager.createOne(products)
-const updateByIdServices = async (cid,updatedProduct)=> await cartsManager.updateById(cid,updatedProduct)
-const readByIdMongooseServices = async (cid) => await cartsManager.readByIdMongoose(cid)
-const destroyByIdServices = async(cid)=> await cartsManager.destroyById(cid)
+const readByIdServices = async(cid)=> await cartsRepository.readById(cid)
+const readManyByIdsServices = async(productIds)=>await cartsRepository.readManyByIds(productIds)
+const createOneServices = async(products)=>await cartsRepository.createOne(products)
+const updateByIdServices = async (cid,updatedProduct)=> await cartsRepository.updateById(cid,updatedProduct)
+const readByIdMongooseServices = async (cid) => await cartsRepository.readByIdMongoose(cid)
+const destroyByIdServices = async(cid)=> await cartsRepository.destroyById(cid)
+
 export{readByIdServices, readManyByIdsServices, createOneServices, updateByIdServices,readByIdMongooseServices,destroyByIdServices}

@@ -1,12 +1,13 @@
-import {productsManager, cartsManager} from "../dao/factory.js"
+import { productsRepository } from "../repositories/products.repository.js"
+import { cartsRepository } from "../repositories/carts.repository.js"
 
-const readAllServices = async ()=> await productsManager.readAll()
-const readByIdServices = async(pid)=> await productsManager.readById(pid)
+const readAllServices = async ()=> await productsRepository.readAll()
+const readByIdServices = async(pid)=> await productsRepository.readById(pid)
 const readByIdWithPopulateServices = async(cid, populateField)=>{
-    return await cartsManager.readByIdWithPopulate(cid, populateField)
+    return await cartsRepository.readByIdWithPopulate(cid, populateField)
 }
-const createOneServices = async(productoRecibido)=> await productsManager.createOne(productoRecibido)
-const updateByIdServices = async(pid,updatedProduct)=>await productsManager.updateById(pid, updatedProduct)
-const destroyByIdServices = async(pid)=>await productsManager.destroyById(pid)
+const createOneServices = async(productoRecibido)=> await productsRepository.createOne(productoRecibido)
+const updateByIdServices = async(pid,updatedProduct)=>await productsRepository.updateById(pid, updatedProduct)
+const destroyByIdServices = async(pid)=>await productsRepository.destroyById(pid)
 
 export {readAllServices, readByIdServices, readByIdWithPopulateServices, createOneServices, updateByIdServices, destroyByIdServices}

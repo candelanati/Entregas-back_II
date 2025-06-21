@@ -384,3 +384,13 @@ nav{
     border-radius: 10px;
     height: 220px;
 }
+.boton-auth-google{
+    background-color: white;
+     border: 1px solid #ccc;
+      padding: 10px 20px;
+       cursor: pointer; 
+       display: flex; 
+       align-items: center; 
+       gap: 10px;
+    color: #0172ad;
+}

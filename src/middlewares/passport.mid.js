@@ -5,7 +5,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 // import { usersManager } from "../dao/factory.js"
 // una vez implementada la capa de repositorios es correcto llamar a la misma
 import { usersRepository } from "../repositories/users.repository.js";
-import {  compareHash } from "../helpers/hash.helper.js";
+import {  compareHash, createHash } from "../helpers/hash.helper.js";
 import { createToken } from "../helpers/token.helper.js";
 
 const callbackURL = "http://localhost:8080/api/auth/google/redirect";
@@ -143,6 +143,7 @@ passport.use(
   )
 );
 
+
 passport.use(
   "google",
   new GoogleStrategy(
@@ -154,8 +155,9 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         console.log(profile);
-        const { email, name, picture, id } = profile;
-        let user = await usersManager.readBy({ email: id });
+        const { email, name, picture } = profile;
+        let user = await usersRepository.readBy({ email });
+
         if (!user) {
           user = {
             email: id,
@@ -164,7 +166,7 @@ passport.use(
             password: createHash(email),
             city: "Google",
           };
-          user = await usersManager.createOne(user);
+          user = await usersRepository.createOne(user);
         }
         const data = {
           user_id: user._id,

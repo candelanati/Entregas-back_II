@@ -1,6 +1,7 @@
 import RouterHelper from "../../helpers/router.helper.js";
 import passportCb from "../../middlewares/passportCb.mid.js";
 import authController from "../../controllers/auth.controller.js";
+import passport from "passport";
 
 class AuthRouter extends RouterHelper {
   constructor() {
@@ -12,8 +13,17 @@ class AuthRouter extends RouterHelper {
     this.create("/login", ["PUBLIC"], passportCb("login"), authController.loginCb);
     this.create("/signout", ["USER", "ADMIN"], authController.signoutCb);
     this.create("/online", ["USER", "ADMIN"], authController.onlineCb);
-    this.read("/google",["PUBLIC"],passportCb("google", { scope: ["email", "profile"] }));
-    this.read("/google/redirect", ["PUBLIC"], passportCb("google"), authController.loginCb);
+    this.read("/google", ["PUBLIC"], passport.authenticate("google", { scope: ["email", "profile"] }));
+    this.read(
+      "/google/redirect",
+      ["PUBLIC"],
+      passport.authenticate("google", {
+        failureRedirect: "/api/auth/bad-auth",
+        session: false
+      }),
+      authController.loginCb
+    );
+
     this.read("/bad-auth", ["PUBLIC"], authController.badAuth);
     this.read("/forbidden", ["PUBLIC"], authController.forbidden);
   };

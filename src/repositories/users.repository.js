@@ -4,6 +4,7 @@ class UsersRepository{
     readById = async(uid)=> await usersManager.readById(uid)
     readBy = async(filter) => await usersManager.readBy(filter)
     createOne = async(data)=>await usersManager.createOne(data)
+    destroyById = async (uid) => await usersManager.destroyById(uid)
 }
 
 const usersRepository =  new UsersRepository()

@@ -1,5 +1,6 @@
 import "dotenv/config.js"
 import express from "express"
+import argvsHelper from "./src/helpers/argvs.helper.js";
 import {engine} from "express-handlebars"
 import expressHandlebars from "express-handlebars";
 import { handlebarsHelpers } from "./src/helpers/handlebars.helper.js";
@@ -18,7 +19,7 @@ import cookieParser from "cookie-parser";
 const server = express()
 const port= process.env.PORT || 8080 //si no existe la variable en .env se aplica el 8080
 const ready = async()=>{
-	console.log("server ready on port: "+port)
+	console.log("server ready on port: "+port+ " and mode: "+argvsHelper.mode)
 	await dbConnect(process.env.LINK_DB)
 }
 server.listen(port,ready)

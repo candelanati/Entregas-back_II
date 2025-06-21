@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-
 class DaoFs{
     constructor(rutaArchivo, model){
         this.model=model
@@ -53,7 +52,7 @@ class DaoFs{
         await this._writeFile(filtered);
         return filtered;
     };
-}   
+}
 
 const productsManager = new DaoFs(Product);
 const cartsManager = new DaoFs(Cart);

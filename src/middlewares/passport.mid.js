@@ -2,7 +2,9 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-import { usersManager } from "../dao/factory.js"
+// import { usersManager } from "../dao/factory.js"
+// una vez implementada la capa de repositorios es correcto llamar a la misma
+import { usersRepository } from "../repositories/users.repository.js";
 import { createHash, compareHash } from "../helpers/hash.helper.js";
 import { createToken } from "../helpers/token.helper.js";
 
@@ -27,7 +29,7 @@ passport.use(
           //throw error;
           return done(null, null, { message: "Invalid data", statusCode: 400 });
         }
-        let user = await usersManager.readBy({ email });
+        let user = await usersRepository.readBy({ email });
         if (user) {
           //const error = new Error("Invalid credentials");
           //error.statusCode = 401;
@@ -35,7 +37,7 @@ passport.use(
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
         }
         req.body.password = createHash(password);
-        user = await usersManager.createOne(req.body);
+        user = await usersRepository.createOne(req.body);
         /* el primer parámetro de done es el error (si ocurre) */
         /* el segundo parámetro son los datos del usuario que se guardan en el objeto de req */
         /* es decir a partir de que se aplica este middleware: existe req.user */
@@ -52,7 +54,7 @@ passport.use(
     { passReqToCallback: true, usernameField: "email" },
     async (req, email, password, done) => {
       try {
-        let user = await usersManager.readBy({ email });
+        let user = await usersRepository.readBy({ email });
         if (!user) {
           return done(null, null, { message: "Invalid credentials (No user)", statusCode: 401 });
         }
@@ -89,7 +91,7 @@ passport.use(
     async (data, done) => {
       try {
         const { user_id, email, role } = data;
-        const user = await usersManager.readBy({ _id: user_id, email, role });
+        const user = await usersRepository.readBy({ _id: user_id, email, role });
         if (!user) {
           return done(null, null, { message: "Forbidden", statusCode: 403 });
         }
@@ -110,7 +112,7 @@ passport.use(
     async (data, done) => {
       try {
         const { user_id, email, role } = data;
-        const user = await usersManager.readBy({ _id: user_id, email, role });
+        const user = await usersRepository.readBy({ _id: user_id, email, role });
         if (!user || user.role !== "ADMIN") {
           return done(null, null, { message: "Forbidden", statusCode: 403 });
         }
@@ -131,7 +133,7 @@ passport.use(
     async (data, done) => {
       try {
         const { user_id } = data;
-        const user = await usersManager.readById(user_id);
+        const user = await usersRepository.readById(user_id);
         if (!user) return done(null, false);
         return done(null, user);
       } catch (error) {

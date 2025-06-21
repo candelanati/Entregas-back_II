@@ -26,4 +26,19 @@ const destroyCb = (req, res, next) => {
   }
 };
 
-export { createCb, readCb, destroyCb };
+const currentCb = (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    return res.status(200).json({
+      message: "Usuario autenticado correctamente",
+      user: req.user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export { createCb, readCb, destroyCb , currentCb};

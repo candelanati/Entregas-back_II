@@ -6,5 +6,6 @@ const createOneServices = async(products)=>await cartsRepository.createOne(produ
 const updateByIdServices = async (cid,updatedProduct)=> await cartsRepository.updateById(cid,updatedProduct)
 const readByIdMongooseServices = async (cid) => await cartsRepository.readByIdMongoose(cid)
 const destroyByIdServices = async(cid)=> await cartsRepository.destroyById(cid)
+const readByIdWithPopulateServices = async (cid, path) => await cartsRepository.readByIdWithPopulate(cid, path);
 
-export{readByIdServices, readManyByIdsServices, createOneServices, updateByIdServices,readByIdMongooseServices,destroyByIdServices}
+export{readByIdServices, readManyByIdsServices, createOneServices, updateByIdServices,readByIdMongooseServices,destroyByIdServices, readByIdWithPopulateServices}

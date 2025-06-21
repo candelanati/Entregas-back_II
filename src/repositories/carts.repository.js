@@ -6,6 +6,7 @@ class CartsRepository{
     createOne = async(products)=>await cartsManager.createOne(products)
     updateById = async (cid,updatedProduct)=> await cartsManager.updateById(cid,updatedProduct)
     readByIdMongoose = async (cid) => await cartsManager.readByIdMongoose(cid)
+    readByIdWithPopulate = async (cid, path) => await cartsManager.readByIdWithPopulate(cid, path);
     destroyById = async(cid)=> await cartsManager.destroyById(cid)
 }
 

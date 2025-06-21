@@ -1,4 +1,4 @@
-import { productsManager, cartsManager } from "../data/managers/mongo/manager.mongo.js";
+import { productsManager, cartsManager } from "../dao/factory.js"
 
 const readByIdServices = async(cid)=> await cartsManager.readById(cid)
 const readManyByIdsServices = async(productIds)=>await cartsManager.readManyByIds(productIds)

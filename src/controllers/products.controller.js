@@ -1,4 +1,4 @@
-import { productsManager } from "../data/managers/mongo/manager.mongo.js";
+import { productsManager } from "../dao/factory.js"
 import mongoose from "mongoose";
 import { createOneServices, destroyByIdServices, readAllServices, readByIdServices, updateByIdServices } from "../services/products.service.js";
 

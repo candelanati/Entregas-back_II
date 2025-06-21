@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { cartsManager, productsManager } from "../data/managers/mongo/manager.mongo.js"
+import { cartsManager, productsManager } from "../dao/factory.js"
 import { readByIdServices, readManyByIdsServices, createOneServices, updateByIdServices, readByIdMongooseServices, destroyByIdServices } from "../services/carts.service.js"
 
 const {isValidObjectId}=mongoose

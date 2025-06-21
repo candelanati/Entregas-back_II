@@ -1,8 +1,8 @@
-import Product from "../../models/products.model.js";
-import Cart from "../../models/carts.model.js";
-import User from "../../models/users.model.js";
+import Product from "./models/products.model.js";
+import Cart from "./models/carts.model.js";
+import User from "./models/users.model.js";
 
-class Manager {
+class DaoMongo {
   constructor(model) {
     this.model = model;
   }
@@ -18,8 +18,8 @@ class Manager {
   readManyByIds = async (ids) => await this.model.find({ _id: { $in: ids } }).lean();
 }
 
-const productsManager = new Manager(Product);
-const cartsManager = new Manager(Cart);
-const usersManager = new Manager(User);
+const productsManager = new DaoMongo(Product);
+const cartsManager = new DaoMongo(Cart);
+const usersManager = new DaoMongo(User);
 
 export { productsManager, cartsManager, usersManager };

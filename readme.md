@@ -70,6 +70,12 @@ Que se implemente una estrategia "current" que valide al usuario logueado y extr
 
 Que la estrategia "current" permita extraer el usuario asociado al token JWT de manera efectiva.
 
+Que en caso de token inválido o inexistente, se devuelva un error apropiado de Passport.
+
+Que el endpoint `/api/sessions/current` funcione correctamente y devuelva los datos del usuario asociado al token JWT.
+
+Que la validación del usuario en el endpoint sea precisa y segura.
+
 ---
 ---
 
@@ -122,8 +128,3 @@ El middleware de autorización se integra perfectamente con la estrategia "curre
 El modelo Ticket se crea correctamente con todos los campos necesarios y se implementa una lógica de compra robusta que verifica el stock de los productos, genera tickets y maneja compras completas e incompletas de manera eficiente. [**Criterios de evaluación**](https://drive.google.com/file/d/1cCLF7IUlV17AG9prMh7FYFOa9jqr_IVY/view?usp=drive_link)
 
 
-Que en caso de token inválido o inexistente, se devuelva un error apropiado de Passport.
-
-Que el endpoint `/api/sessions/current` funcione correctamente y devuelva los datos del usuario asociado al token JWT.
-
-Que la validación del usuario en el endpoint sea precisa y segura.

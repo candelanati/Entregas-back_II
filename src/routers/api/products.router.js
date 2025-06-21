@@ -15,5 +15,5 @@ class ProductsRouter extends RouterHelper{
         this.destroy("/:id",["ADMIN"],destroyById)
     }
 }
-
-export default ProductsRouter
+const productsRouter = new ProductsRouter().getRouter() 
+export default productsRouter

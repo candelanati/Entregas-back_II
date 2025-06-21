@@ -143,43 +143,42 @@ passport.use(
   )
 );
 
-
-// passport.use(
-//   "google",
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.GOOGLE_ID,
-//       clientSecret: process.env.GOOGLE_SECRET,
-//       callbackURL,
-//     },
-//     async (accessToken, refreshToken, profile, done) => {
-//       try {
-//         console.log(profile);
-//         const { email, name, picture, id } = profile;
-//         let user = await usersManager.readBy({ email: id });
-//         if (!user) {
-//           user = {
-//             email: id,
-//             name: name.givenName,
-//             avatar: picture,
-//             password: createHash(email),
-//             city: "Google",
-//           };
-//           user = await usersManager.createOne(user);
-//         }
-//         const data = {
-//           user_id: user._id,
-//           email: user.email,
-//           role: user.role,
-//         };
-//         const token = createToken(data);
-//         user.token = token;
-//         done(null, user);
-//       } catch (error) {
-//         done(error);
-//       }
-//     }
-//   )
-// );
+passport.use(
+  "google",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      callbackURL,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        console.log(profile);
+        const { email, name, picture, id } = profile;
+        let user = await usersManager.readBy({ email: id });
+        if (!user) {
+          user = {
+            email: id,
+            name: name.givenName,
+            avatar: picture,
+            password: createHash(email),
+            city: "Google",
+          };
+          user = await usersManager.createOne(user);
+        }
+        const data = {
+          user_id: user._id,
+          email: user.email,
+          role: user.role,
+        };
+        const token = createToken(data);
+        user.token = token;
+        done(null, user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
 
 export default passport;

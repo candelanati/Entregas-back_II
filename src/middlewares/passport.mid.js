@@ -5,7 +5,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 // import { usersManager } from "../dao/factory.js"
 // una vez implementada la capa de repositorios es correcto llamar a la misma
 import { usersRepository } from "../repositories/users.repository.js";
-import { createHash, compareHash } from "../helpers/hash.helper.js";
+import {  compareHash } from "../helpers/hash.helper.js";
 import { createToken } from "../helpers/token.helper.js";
 
 const callbackURL = "http://localhost:8080/api/auth/google/redirect";
@@ -36,7 +36,7 @@ passport.use(
           //throw error;
           return done(null, null, { message: "Invalid credentials", statusCode: 401 });
         }
-        req.body.password = createHash(password);
+        // req.body.password = createHash(password);
         user = await usersRepository.createOne(req.body);
         /* el primer parámetro de done es el error (si ocurre) */
         /* el segundo parámetro son los datos del usuario que se guardan en el objeto de req */

@@ -1,4 +1,4 @@
-import { cartsManager, productsManager } from "../data/managers/mongo/manager.mongo.js";
+
 import mongoose from "mongoose";
 import { readAllServices, readByIdServices, readByIdWithPopulateServices } from "../services/products.service.js";
 

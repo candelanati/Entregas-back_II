@@ -1,0 +1,48 @@
+<main style="display: flex; flex-direction:column; align-items:center; margin-top:50px">
+  <h1 >RESET FORM</h1>
+  <form style="width: 380px;">
+    <input type="text" name="email" id="email" value="{{email}}" readonly />
+    <input type="password" name="newPassword" id="newPassword" placeholder="Enter new password!" />
+    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Verify new password!" />
+    <input type="button" id="reset" value="Reset!" />
+  </form>
+</main>
+<script>
+  document.getElementById("reset").addEventListener("click", async () => {
+    const email = document.getElementById("email").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (!newPassword || !confirmPassword) {
+      return alert("Por favor completá ambos campos de contraseña.");
+    }
+
+    if (newPassword !== confirmPassword) {
+      return alert("Las contraseñas no coinciden.");
+    }
+
+    try {
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, newPassword })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("¡Contraseña restablecida con éxito!");
+        window.location.href = "/login";
+      } else {
+        alert(result.message || "Error al restablecer la contraseña.");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Ocurrió un error en el servidor.");
+    }
+  });
+
+
+</script>

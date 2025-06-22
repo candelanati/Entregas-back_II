@@ -57,11 +57,10 @@ passport.use(
         if (!verifyPass) {
           return done(null, null, { message: "Invalid credentials (Pass not verified)", statusCode: 401 });
         }
-        /* no necesito sessions porque trabajaremos con token */
-        //req.session.user_id = user._id;
-        //req.session.email = user.email;
-        //req.session.role = user.role;
-        /* crear el token y enviarlo al cliente */
+        const {isVerified} = user
+        if(!isVerified){
+          return done(null,null, {message: "Please verify your account!!", statusCode:401})
+        }
         const data = {
           user_id: user._id,
           email: user.email,

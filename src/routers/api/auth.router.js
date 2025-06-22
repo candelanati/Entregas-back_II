@@ -26,6 +26,7 @@ class AuthRouter extends RouterHelper {
 
     this.read("/bad-auth", ["PUBLIC"], authController.badAuth);
     this.read("/forbidden", ["PUBLIC"], authController.forbidden);
+    this.read("/verify/:email/:verifyCode", ["PUBLIC"], authController.verifyUserCb)
   };
 }
 const authRouter = new AuthRouter().getRouter();

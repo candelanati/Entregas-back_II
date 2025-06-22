@@ -59,4 +59,9 @@ const updateUserView = async (req, res) => {
   res.status(200).render("update-user");
 };
 
-export {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView} //export para usar en views router
+const verifyView = async (req, res) => {
+  const { email } = req.params;
+  res.status(200).render("verify", { email });
+};
+
+export {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView, verifyView} //export para usar en views router

@@ -26,14 +26,14 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
-    const url = "/api/auth/register";
+    const url = "http://localhost:8080/api/auth/register";
     let response = await fetch(url, opts);
     response = await response.json();
     //console.log(response);
     if (response.error) {
       alert(response.error);
     } else {
-      location.replace("/login");
+      location.replace(`http://localhost:8080/verify/${data.email}`);
     }
   } catch (error) {
     console.log(error);

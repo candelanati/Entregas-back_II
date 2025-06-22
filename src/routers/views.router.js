@@ -1,6 +1,6 @@
 import { Router } from "express";
 // const ViewsRouter = Router()
-import {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView} from "../controllers/views.controller.js"
+import {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView, verifyView} from "../controllers/views.controller.js"
 import passport from "passport";
 import RouterHelper from "../helpers/router.helper.js"
 
@@ -23,8 +23,8 @@ class ViewsRouter extends RouterHelper {
       };
       res.status(200).render("error", { error });
     });
+    this.render("/verify/:email", ["PUBLIC"], verifyView);
   }
-
 }
 
 

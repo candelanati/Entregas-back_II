@@ -21,5 +21,5 @@ const sendEmailHelper = async (email) => {
         throw (error)
     }
 }
-
+export {transport}
 export default sendEmailHelper

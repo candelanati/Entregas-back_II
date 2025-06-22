@@ -1,3 +1,6 @@
+import { updateByIdServices } from "../services/users.service.js";
+import { readByServices } from "../services/users.service.js";
+
 class AuthController{
     registerCb = async (req, res) => {
         const { _id } = req.user;
@@ -20,6 +23,21 @@ class AuthController{
     onlineCb = (req, res) => res.json200(req.user, "Is online");
     badAuth = (req, res) => res.json401();
     forbidden = (req, res) => res.json403();
+    verifyUserCb = async(req, res)=> {
+        const { email, verifyCode } = req.params
+        console.log(email, verifyCode)
+        const user = await readByServices({ email, verifyCode })
+        if (!user) {
+            res.json404()
+        }
+        let data={ isVerified: true }
+        await updateByIdServices(user._id, data)
+        console.log("id a actualizar "+user._id)
+
+        res.json200(user, "Verified!")
+    }
+
+
 }
 const authController = new AuthController()
 

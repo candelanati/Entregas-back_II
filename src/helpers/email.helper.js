@@ -21,5 +21,21 @@ const sendEmailHelper = async (email) => {
         throw (error)
     }
 }
-export {transport}
+const sendResetPasswordEmail = async (email, verifyCode) => {
+  const resetLink = `http://localhost:8080/reset/${email}?code=${verifyCode}`;
+
+  const mailOptions = {
+    from: "Soporte <tuemail@tudominio.com>",
+    to: email,
+    subject: "Recuperación de contraseña",
+    html: `
+      <h1>Recuperación de contraseña</h1>
+      <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+      <a href="${resetLink}">${resetLink}</a>
+    `,
+  };
+
+  return await transport.sendMail(mailOptions);
+};
+export {transport,sendResetPasswordEmail}
 export default sendEmailHelper

@@ -67,4 +67,8 @@ const resetView = async (req, res) => {
   const { email } = req.params;
   res.status(200).render("reset", { email });
 };
-export {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView, verifyView,resetView} //export para usar en views router
+ const resetRequestView = (req, res) => {
+  res.render("resetRequest");
+};
+
+export {indexView, registerView, loginView, detailsView, profileView, updateUserView, cartView, verifyView,resetView,resetRequestView} //export para usar en views router

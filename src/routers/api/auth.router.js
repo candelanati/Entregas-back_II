@@ -28,7 +28,7 @@ class AuthRouter extends RouterHelper {
     this.read("/forbidden", ["PUBLIC"], authController.forbidden);
     this.read("/verify/:email/:verifyCode", ["PUBLIC"], authController.verifyUserCb)
     this.create("/reset-password", ["PUBLIC"], authController.resetPasswordCb); // procesa el cambio
-    this.create("/send-reset-email", ["PUBLIC"], authController.sendResetPasswordEmailCb); // (opcional) envía el mail
+    this.create("/resetPassword", ["PUBLIC"], authController.sendResetPasswordEmailCb); // (opcional) envía el mail
 
   };
 }

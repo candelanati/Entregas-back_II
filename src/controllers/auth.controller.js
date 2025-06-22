@@ -1,6 +1,8 @@
 import { updateByIdServices } from "../services/users.service.js";
 import { readByServices } from "../services/users.service.js";
 import { isValidPassword, createHash } from "../helpers/hash.helper.js";
+ import crypto from "crypto"
+import { sendResetPasswordEmail } from "../helpers/email.helper.js";
 
 class AuthController{
     registerCb = async (req, res) => {
@@ -39,7 +41,8 @@ class AuthController{
     }
     sendResetPasswordEmailCb = async (req, res) => {
         const { email } = req.body;
-        const [user] = await readByServices({ email });
+        const user = await readByServices({ email });
+
 
         if (!user) return res.json404("Usuario no encontrado.");
 
@@ -47,8 +50,14 @@ class AuthController{
         const codeCreatedAt = Date.now();
 
         await updateByIdServices(user._id, { verifyCode, codeCreatedAt });
+        // let data = {email, verifyCode}
+        // await updateByIdServices(id, data); 
+        // await resetPassword(email, verifyCode); 
 
-        await resetPassword(email, verifyCode); 
+        //retomar
+        await sendResetPasswordEmail(user.email, verifyCode);
+
+
 
         res.json200(null, "Correo de recuperación enviado.");
     };

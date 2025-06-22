@@ -18,7 +18,12 @@
             if (!res.ok) throw new Error("Código inválido");
             return res.json();
         })
-        .then((data) => alert("✅ Usuario verificado correctamente"))
+        .then((data) => {
+            alert("✅ Usuario verificado correctamente")
+            location.replace(`http://localhost:8080/login`);
+        }
+        
+        )
         .catch((err) => alert("❌ Error: " + err.message));
 
     } catch (err) {
